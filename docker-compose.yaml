@@ -21,7 +21,7 @@ services:
     links:
       - database
   api:
-     image: cahernao/apijunio2023
+     image: 10luisb/apijunio2023
      container_name: api_node
      environment:
        - DB_HOST=database
