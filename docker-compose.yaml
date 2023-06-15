@@ -8,20 +8,25 @@ services:
         - ./data:/data/db
       ports:
         - '27017:27017'
-  modulo:
+  modulos:
     image: cahernao/backjunio2023
-    container_name: modulo_c
+    container_name: modulo_container
+    volumes:
+      - type: bind
+        source: /proc
+        target: /proc
+    pid: host
+    restart: always
     environment:
       - DB_HOST=database
     ports:
       - '8000:8000'
-    restart: always
     depends_on:
       - database
     links:
       - database
   api:
-     image: 10luisb/apijunio2023
+     image: cahernao/apijunio2023
      container_name: api_node
      environment:
        - DB_HOST=database
@@ -29,9 +34,9 @@ services:
        - '3200:3200'
      restart: always
      depends_on:
-       - modulo
+       - modulos
      links:
-       - modulo
+       - modulos
   front:
      image: cahernao/frontjunio2023
      container_name: front_container
